@@ -50,7 +50,7 @@
 \RequirePackage[english]{babel}
 \RequirePackage{lmodern}
 \RequirePackage[detect-all=true]{siunitx}
-\RequirePackage{textgreek}
+%\RequirePackage{textgreek}
 %\RequirePackage{cleveref}
 \RequirePackage{gensymb}
 \RequirePackage{textcomp}
@@ -82,6 +82,11 @@
 \RequirePackage[labelfont={bf,sf},%
                 labelsep=period,%
                 figurename=Figure]{caption}
+                
+%% References
+\RequirePackage{csquotes}
+\RequirePackage[natbib=true, style=apa]{biblatex}
+                
 %% line numbers
 \RequirePackage{lineno}
 \linenumbers
@@ -255,11 +260,11 @@
 \def\footernote#1{\markboth{#1}{#1}}
 
 % %% bibliography
-\RequirePackage{chapterbib}
-\RequirePackage[sectionbib,authoryear,round]{natbib}
-\setlength{\bibsep}{0.0pt}
-\bibliographystyle{RoyleLab-StyleBib.bst}
-\renewcommand{\bibsection}{} % Remove header
+%\RequirePackage{chapterbib}
+%\RequirePackage[sectionbib,authoryear,round]{natbib}
+%\setlength{\bibsep}{0.0pt}
+%\bibliographystyle{RoyleLab-StyleBib.bst}
+%\renewcommand{\bibsection}{} % Remove header
 \renewcommand\bibfont{\normalfont\sffamily\fontsize{9}{10}\selectfont} % set font to be sans serif
 
 \makeatletter
@@ -343,7 +348,7 @@
 \pagestyle{fancy}		  % Enables the custom headers/footers
 
 \def\aBioRXiv{{\footnotesize
-    \footerfont \@leadauthor\ifnum \value{authors} > 1\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\today\hspace{7pt}|\hspace{7pt}\thepage\textendash\pageref{LastPage}
+    \footerfont \@leadauthor\ifnum \value{authors} > 2\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\today\hspace{7pt}|\hspace{7pt}\thepage\textendash\pageref{LastPage}
   }}
 
 \def\bBioRXiv{{\footnotesize
@@ -363,7 +368,7 @@
   }}
 
 \def\dAuthor{{\footnotesize
-    \footerfont \@leadauthor\ifnum \value{authors} > 1\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\@shorttitle
+    \footerfont \@leadauthor\ifnum \value{authors} > 2\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\@shorttitle
   }}
 
 
