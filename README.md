@@ -24,16 +24,17 @@ Tested on TeXLive 2020 with pdfLaTeX compiler.
 
 ## Contributions
 
-The initial overleaf template was forked from the template created by Henriques lab [available here](https://www.overleaf.com/latex/templates/henriqueslab-biorxiv-template/nyprsybwffws).
-This is a modification of the PNAS template (also available on Overleaf) which is widely used on bioRxiv.
-We have made a few changes to the HenriquesLab bioRxiv template and made it possible to easily generate a journal submission version.
-
-Changes include:
+This template was forked from the template created by Henriques lab [available here](https://www.overleaf.com/latex/templates/henriqueslab-biorxiv-template/nyprsybwffws), which is a a modification of the PNAS template (also available on Overleaf) and widely used on bioRxiv. It was then modified by Royle lab ([available on github](https://github.com/quantixed/manuscript-templates)), who made it possible to easily generate a journal submission version. Their changes include:
 
 - genuine bioRxiv logo used in the footer
 - support for ORCiDs using `\orcidlink`
 - Helvetica for readability
 - greater range of custom units
+
+I further modified the template and adapted it to my needs. Changes include:
+
+- `biblatex` instead of `natbib` (easily allows separate bibliographies for supplementary material)
+- refactored into one single class for bioRxiv style and journal submission style (option `submit`)
 
 ## What do they look like?
 
