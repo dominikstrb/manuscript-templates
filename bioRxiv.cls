@@ -1,15 +1,17 @@
 %%
-%% This is file `RoyleLab-StyleBioRxiv.cls'
+%% This is file `StyleJoint.cls'
+%% Forked from `RoyleLab-StyleBioRxiv.cls'
 %% Forked from `zHenriquesLab-StyleBioRxiv.cls',
 %%
 %% Class files for pre-print servers such as BioRXiv
 %%
 %% Copyright (C) Ricardo Henriques <r.henriques@ucl.ac.uk>
 %% 
-\typeout{Document Class `RoyleLab' <12-April-2019>.}
+
+\typeout{Document Class `bioRxiv' <03-January-2022>.}
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{RoyleLab-StyleBioRxiv}
-  [2019/04/12 revision by SJR]
+\ProvidesClass{bioRxiv}[2022/01/03 revision by Dominik Straub]
+
 % \AtEndOfClass{\RequirePackage{microtype}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{extarticle}}
 \ProcessOptions*
@@ -20,6 +22,7 @@
 \newif\if@tmptwocolumn  \@tmptwocolumnfalse
 \newif\if@times         \@timesfalse
 \newif\if@helvet         \@helvetfalse
+\newif\if@submit        \@submitfalse
 
 %% Options
 \newif\ifbfabstract     \bfabstracttrue
@@ -32,32 +35,29 @@
 \DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
 \DeclareOption{times}{\@timestrue}
 \DeclareOption{helvet}{\@helvettrue}
-\DeclareOption{twoside}{\@twosidetrue}
 \DeclareOption{twocolumn}{\@tmptwocolumntrue}
 \DeclareOption{onecolumn}{\@tmptwocolumnfalse}
+\DeclareOption{submit}{\@submittrue \@tmptwocolumnfalse}
 
-\ExecuteOptions{helvet,twoside,twocolumn}
 \ProcessOptions
-
-%% and math support and fonts
-\RequirePackage{amsmath,amsfonts,amssymb}
-\RequirePackage{mathptmx}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Royle lab dependencies - Start %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{amsmath,amsfonts,amssymb}
+\RequirePackage{mathptmx}
 \RequirePackage{xcolor}
 \RequirePackage{authblk}
 \RequirePackage[latin1,utf8]{inputenc}
 \RequirePackage[english]{babel}
 \RequirePackage{lmodern}
 \RequirePackage[detect-all=true]{siunitx}
-%\RequirePackage{textgreek}
-%\RequirePackage{cleveref}
-\RequirePackage{gensymb}
-\RequirePackage{textcomp}
 % for no hyphenation add [none] option
-\usepackage{hyphenat}
+\if@submit
+  \usepackage[none]{hyphenat} 
+\else 
+  \usepackage{hyphenat}
+\fi
 % reduce the spacing after a full-stop
 %\frenchspacing
 % this line causes a l3regex obsolete warning - problem seems Overleaf-side
@@ -81,16 +81,24 @@
 \RequirePackage{bbding} % For the \Envelope symbol
 \RequirePackage[a4paper,
                 total={170mm,247mm},
-                left=20mm,
+                left=19mm, % RoyleLab default: 20
+                right=13.2mm,
+                % left=38.5pt,% PNAS default
+                % right=43pt,% PNAS default
                 top=25mm]{geometry}
 \RequirePackage[labelfont={bf,sf},%
                 labelsep=period,%
                 figurename=Figure]{caption}
-                
-%% References
-\RequirePackage{csquotes}
-\RequirePackage[natbib=true, style=apa, backend=biber]{biblatex}
 
+% References
+\RequirePackage{csquotes}
+\RequirePackage[natbib=true, style=apa]{biblatex}
+
+%% line numbers
+\if@submit
+  \RequirePackage{lineno}
+  \linenumbers
+\fi
 
 %% Hyperlinking
 \RequirePackage[colorlinks=true, allcolors=blue]{hyperref}
@@ -98,10 +106,10 @@
 
 %% Ref to Sup
 \RequirePackage{nameref}
-\RequirePackage{cleveref}
+\RequirePackage[capitalise]{cleveref}
 \crefname{equation}{Eq. S}{equations}
 \crefname{figure}{Figure}{figures}
-\crefname{section}{Sup. Note}{notes}
+% \crefname{section}{Sup. Note}{notes}
 \crefname{suppfigure}{Supplementary Figure}{supplementary figures}
 \crefname{supptable}{Supplementary Table}{supplementary tables}
 
@@ -173,7 +181,11 @@
 \setlength{\belowcaptionskip}{-10pt} % reduces spacing between figure legend and text
 
 \renewcommand{\topfraction}{0.99}
-\renewcommand{\floatpagefraction}{0.8} % changed from 0.5 because single column figs bigger than 0.5 were excluding all text in that column
+\if@submit
+  \renewcommand{\floatpagefraction}{0.5} 
+\else
+  \renewcommand{\floatpagefraction}{0.8} % changed from 0.5 because single column figs bigger than 0.5 were excluding all text in that column
+\fi
 \renewcommand{\bottomfraction}{0.99}
 \renewcommand{\textfraction}{0.01}
 
@@ -183,14 +195,21 @@
 
 \newcommand{\shorttitle}[1]{\def\@shorttitle{#1}}
 \newcommand{\leadauthor}[1]{\def\@leadauthor{#1}}
-\newcommand{\headerfont}{\normalfont\sffamily\fontsize{7}{9} \selectfont}
 \newcommand{\footerfont}{\normalfont\sffamily\fontsize{7}{9} \selectfont}
 \newcommand{\titlefont}{\fontfamily{lmss}\bfseries\fontsize{18pt}{20pt}\selectfont}
 \newcommand{\dropcapfont}{\fontfamily{lmss}\bfseries\fontsize{22pt}{24pt}\selectfont}
+\if@submit
+\newcommand{\datesfont}{\normalfont\sffamily\fontsize{7}{9}\selectfont}
+\newcommand{\absfont}{\normalfont\sffamily\bfseries\fontsize{10}{12}\selectfont}
+\newcommand{\keywordsfont}{\normalfont\rmfamily\fontsize{10}{11}\selectfont}
+\newcommand{\copyrightfont}{\normalfont\rmfamily\fontsize{10}{11}\selectfont}
+\else
+\newcommand{\headerfont}{\normalfont\sffamily\fontsize{7}{9} \selectfont}
 \newcommand{\datesfont}{\normalfont\sffamily\fontsize{7}{8}\selectfont}
 \newcommand{\absfont}{\normalfont\sffamily\bfseries\fontsize{8}{11}\selectfont}
 \newcommand{\keywordsfont}{\normalfont\rmfamily\fontsize{7}{10}\selectfont}
 \newcommand{\copyrightfont}{\normalfont\rmfamily\fontsize{6}{8}\selectfont}
+\fi
 
 %% Set document color scheme
 \definecolor{black50}{gray}{0.5} % 50% black for hrules
@@ -198,64 +217,61 @@
 \definecolor{color1}{RGB}{40,40,40} % author email, doi
 
 %% Author and affiliation
-\setlength{\affilsep}{8.5pt} % 16.5pts between base of author line and base of affil line
-\renewcommand\Authfont{\color{color1}\normalfont\sffamily\bfseries\fontsize{9}{11}\selectfont}
-\renewcommand\Affilfont{\color{color1}\normalfont\sffamily\fontsize{7}{8}\selectfont}
-\makeatletter
-% comment the following line to have affiliations on separate lines
-\renewcommand\AB@affilsepx{; \protect\Affilfont}
-\renewcommand\Authands{, and }
+\if@submit
+  %% Author and affiliation
+  \setlength{\affilsep}{12pt}
+  \renewcommand\Authfont{\color{color1}\normalfont\sffamily\bfseries\fontsize{9}{10}\selectfont}
+  \renewcommand\Affilfont{\color{color1}\normalfont\sffamily\fontsize{9}{10}\selectfont}
+  \makeatletter
+  % uncomment the following line to have affiliations on same line
+  % \renewcommand\AB@affilsepx{; \protect\Affilfont}
+  \renewcommand\Authands{, and }
+\else
+  \setlength{\affilsep}{8.5pt} % 16.5pts between base of author line and base of affil line
+  \renewcommand\Authfont{\color{color1}\normalfont\sffamily\bfseries\fontsize{9}{11}\selectfont}
+  \renewcommand\Affilfont{\color{color1}\normalfont\sffamily\fontsize{7}{8}\selectfont}
+  \makeatletter
+  % comment the following line to have affiliations on separate lines
+  \renewcommand\AB@affilsepx{; \protect\Affilfont}
+  \renewcommand\Authands{, and }
+\fi
 
 %% Section/subsection/paragraph set-up
 \RequirePackage[explicit]{titlesec}
-\renewcommand{\thesubsection}{\Alph{subsection}}
+% \renewcommand{\thesubsection}{\Alph{subsection}}
 
-\titleformat{\section}
-  {\Large\sffamily\bfseries}
-  {}
-  {0em}
-  {Supplementary Note \thesection: #1}
-  []
-\titleformat{name=\section,numberless}
-  {\Large\sffamily\bfseries}
-  {}
-  {0em}
-  {#1}
-  []  
-\titleformat{\subsection}
-  {\sffamily\bfseries}
-  {\thesubsection.}
-  {0.5em}
-  {#1}
-  []
-\titleformat{\subsubsection}[runin]
-  {\sffamily\small\bfseries\itshape}
-  {\thesubsubsection.}
-  {0.5em}
-  {#1. }
-  []    
-\titleformat{\paragraph}[runin]
-  {\sffamily\small\bfseries}
-  {}
-  {0em}
-  {#1} 
+%% from here on there remain differences for the submit style
+%% TODO: check these out (from l. 245 in StyleSubmit.cls)
 \titlespacing*{\section}{0pc}{3ex \@plus4pt \@minus3pt}{5pt}
-\titlespacing*{\subsection}{0pc}{2.5ex \@plus3pt \@minus2pt}{2pt}
+\if@submit 
+  \titlespacing*{\subsection}{0pc}{3ex \@plus4pt \@minus2pt}{4pt}
+\else 
+  \titlespacing*{\subsection}{0pc}{2.5ex \@plus3pt \@minus2pt}{2pt}
+\fi
 \titlespacing*{\subsubsection}{0pc}{2ex \@plus2.5pt \@minus1.5pt}{2pt}
 \titlespacing*{\paragraph}{0pc}{1.5ex \@plus2pt \@minus1pt}{12pt}
 
+\if@submit
+  \let\oldsection\section
+  \renewcommand\section{\clearpage\oldsection}
+\fi
+
 %% Figure caption style
-\DeclareCaptionFormat{smallformat}{\normalfont\sffamily\fontsize{7}{9}\selectfont#1#2#3}
+\if@submit
+  \DeclareCaptionFormat{smallformat}{\normalfont\sffamily\fontsize{9}{12}\selectfont#1#2#3}
+\else
+  \DeclareCaptionFormat{smallformat}{\normalfont\sffamily\fontsize{7}{9}\selectfont#1#2#3}
+\fi
 \DeclareCaptionFormat{largeformat}{\normalfont\sffamily\fontsize{9}{12}\selectfont#1#2#3}
 \captionsetup*{format=smallformat}
 
 % %% Watermark 
-%\usepackage[printwatermark]{xwatermark}
-%\AtBeginDocument{%
-%  \ifwatermark%
-%  \newwatermark[allpages,color=gray!20,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
-%  \fi
-%}
+% \usepackage[printwatermark]{xwatermark}
+% \AtBeginDocument{%
+%   \ifwatermark%
+%   \newwatermark[allpages,color=gray!20,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+%   \fi
+% }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Royle lab parts adapted from PNAS - END %%
@@ -266,12 +282,16 @@
 \def\footernote#1{\markboth{#1}{#1}}
 
 % %% bibliography
-%\RequirePackage{chapterbib}
-%\RequirePackage[sectionbib,authoryear,round]{natbib}
-%\setlength{\bibsep}{0.0pt}
-%\bibliographystyle{RoyleLab-StyleBib.bst}
-%\renewcommand{\bibsection}{} % Remove header
-\renewcommand\bibfont{\normalfont\sffamily\fontsize{6}{8}\selectfont} % set font to be sans serif
+% \RequirePackage{chapterbib}
+% \RequirePackage[sectionbib,authoryear,sort&compress,merge,round]{natbib}
+% \setlength{\bibsep}{0.0pt}
+% \bibliographystyle{RoyleLab-StyleBib}
+% \renewcommand{\bibsection}{} % Remove header
+\if@submit
+  \renewcommand\bibfont{\normalfont\sffamily\fontsize{9}{10}\selectfont} % set font to be sans serif
+\else
+  \renewcommand\bibfont{\normalfont\sffamily\fontsize{6}{8}\selectfont} % set font to be sans serif
+\fi
 
 \makeatletter 
 \renewcommand\@biblabel[1]{ #1.} % Remove brackets from label
@@ -294,39 +314,75 @@
   \gdef\@thanks{}\gdef\@author{}\gdef\@title{}\let\thanks\relax
 }
 
-\def\@maketitle{\newpage
-  \begin{flushleft}
-    \vskip0.2em{\Huge\bfseries\@title\par}\vskip1.0em%
-    {\lineskip.5em\large\@author\par}
-  \end{flushleft}
-    \par\vskip 1.4em}
+\if@submit
+  \def\@maketitle{\newpage
+  %  \begin{left}
+      \vskip0.2em{\huge\bfseries\@title\par}\vskip1.0em%
+      {\lineskip.5em\large\@author\par}
+  %  \end{left}
+      \par\vskip 1.4em}
 
-%% Abstract and keywords
-\def\abstract{%\vspace{-.3em}
-  \ifbfabstract\normalsize\bfseries\else\small\fi}
+  %% Abstract and keywords
+  \def\abstract{\vspace{2em}
+    \ifbfabstract\normalsize\bfseries\else\footnotesize\fi}
 
-\def\endabstract{\vspace{1.0em}\par\normalsize}
+  \def\endabstract{\vspace{1.0em}\par\normalsize}
 
-\def\keywords{%\vspace{-.3em}
-\ifbfabstract\Affilfont\bfseries\else\footnotesize\fi}
-\def\endkeywords{\vspace{0.3em}\par\normalsize}
+  \def\keywords{
+  \ifbfabstract\Affilfont\normalfont\else\footnotesize\fi}
+  \def\endkeywords{\vspace{1em}\par\normalsize}
 
-\newcommand{\at}{\makeatletter @\makeatother}
-\def\corrauthor{%\vspace{-.3em}
-\noindent\ifbfabstract\Affilfont\bfseries\else\footnotesize\fi  Correspondence:\itshape}
-\def\endcorrauthor{\vspace{0.3em}\par\normalsize}
+  \newcommand{\at}{\makeatletter @\makeatother}
+  \def\corrauthor{
+  \noindent\ifbfabstract\Affilfont\normalfont\else\footnotesize\fi  Correspondence:\itshape}
+  \def\endcorrauthor{\vspace{1em}\par\normalsize}
 
-\def\acknowledgements{\vspace{1em}
-\Affilfont\bfseries ACKNOWLEDGEMENTS\par\mdseries}
-\def\endacknowledgements{\vspace{0.3em}\par\normalsize}
+  \def\acknowledgements{
+  \Affilfont\bfseries ACKNOWLEDGEMENTS\par\mdseries}
+  \def\endacknowledgements{\vspace{1em}\par\normalsize}
 
-\def\contributions{\vspace{.3em}
-\Affilfont\bfseries AUTHOR CONTRIBUTIONS\par\mdseries}
-\def\endcontributions{\vspace{0.3em}\par\normalsize}
+  \def\contributions{
+  \Affilfont\bfseries AUTHOR CONTRIBUTIONS\par\mdseries}
+  \def\endcontributions{\vspace{1em}\par\normalsize}
 
-\def\interests{\vspace{.3em}
-\Affilfont\bfseries COMPETING FINANCIAL INTERESTS\par\mdseries}
-\def\endinterests{\vspace{0.3em}\par\normalsize}
+  \def\interests{
+  \Affilfont\bfseries COMPETING FINANCIAL INTERESTS\par\mdseries}
+  \def\endinterests{\vspace{1em}\par\normalsize}
+\else
+  \def\@maketitle{\newpage
+    \begin{flushleft}
+      \vskip0.2em{\Huge\bfseries\@title\par}\vskip1.0em%
+      {\lineskip.5em\large\@author\par}
+    \end{flushleft}
+      \par\vskip 1.4em}
+
+  %% Abstract and keywords
+  \def\abstract{%\vspace{-.3em}
+    \ifbfabstract\normalsize\bfseries\else\small\fi}
+
+  \def\endabstract{\vspace{1.0em}\par\normalsize}
+
+  \def\keywords{%\vspace{-.3em}
+  \ifbfabstract\Affilfont\bfseries\else\footnotesize\fi}
+  \def\endkeywords{\vspace{0.3em}\par\normalsize}
+
+  \newcommand{\at}{\makeatletter @\makeatother}
+  \def\corrauthor{%\vspace{-.3em}
+  \noindent\ifbfabstract\Affilfont\bfseries\else\footnotesize\fi  Correspondence:\itshape}
+  \def\endcorrauthor{\vspace{0.3em}\par\normalsize}
+
+  \def\acknowledgements{\vspace{1em}
+  \Affilfont\bfseries ACKNOWLEDGEMENTS\par\mdseries}
+  \def\endacknowledgements{\vspace{0.3em}\par\normalsize}
+
+  \def\contributions{\vspace{.3em}
+  \Affilfont\bfseries AUTHOR CONTRIBUTIONS\par\mdseries}
+  \def\endcontributions{\vspace{0.3em}\par\normalsize}
+
+  \def\interests{\vspace{.3em}
+  \Affilfont\bfseries COMPETING FINANCIAL INTERESTS\par\mdseries}
+  \def\endinterests{\vspace{0.3em}\par\normalsize}
+\fi
 
 %% environments
 \newdimen\tmpitemindent
@@ -343,19 +399,35 @@
 \newtheorem{definition}{Definition}
 \newtheorem{corollary}{Corollary}
 
+\if@submit
+\onecolumn \sloppy \flushbottom
+\else
 \twocolumn \sloppy \flushbottom
+\fi
 
 %% Allows BIOGRAPHY and leaves place for picture
 %%
-\newenvironment{biography}[1]{%
-\footnotesize\unitlength 1mm\bigskip\bigskip\bigskip\parskip=0pt\par%
-\rule{0pt}{39mm}\vspace{-39mm}\par%   guarantees correct page breaking
-\noindent\setbox0\hbox{\framebox(25,32){}}%   box containing the frame
-\ht0=37mm\count10=\ht0\divide\count10 by\baselineskip%  calculates lines
-\global\hangindent29mm\global\hangafter-\count10%
-\hskip-28.5mm\setbox0\hbox to 28.5mm {\raise-30.5mm\box0\hss}%
-\dp0=0mm\ht0=0mm\box0\noindent\bf#1\rm}{
-\par\rm\normalsize}
+\if@submit
+  \newenvironment{biography}[1]{%
+  \normalsize\unitlength 1mm\bigskip\bigskip\bigskip\parskip=0pt\par%
+  \rule{0pt}{39mm}\vspace{-39mm}\par%   guarantees correct page breaking
+  \noindent\setbox0\hbox{\framebox(25,32){}}%   box containing the frame
+  \ht0=37mm\count10=\ht0\divide\count10 by\baselineskip%  calculates lines
+  \global\hangindent29mm\global\hangafter-\count10%
+  \hskip-28.5mm\setbox0\hbox to 28.5mm {\raise-30.5mm\box0\hss}%
+  \dp0=0mm\ht0=0mm\box0\noindent\bf#1\rm}{
+  \par\rm\normalsize}
+\else
+  \newenvironment{biography}[1]{%
+  \footnotesize\unitlength 1mm\bigskip\bigskip\bigskip\parskip=0pt\par%
+  \rule{0pt}{39mm}\vspace{-39mm}\par%   guarantees correct page breaking
+  \noindent\setbox0\hbox{\framebox(25,32){}}%   box containing the frame
+  \ht0=37mm\count10=\ht0\divide\count10 by\baselineskip%  calculates lines
+  \global\hangindent29mm\global\hangafter-\count10%
+  \hskip-28.5mm\setbox0\hbox to 28.5mm {\raise-30.5mm\box0\hss}%
+  \dp0=0mm\ht0=0mm\box0\noindent\bf#1\rm}{
+  \par\rm\normalsize}
+\fi
 
 %% Default rules for including pictures
 \RequirePackage{graphicx}
@@ -368,17 +440,31 @@
 \RequirePackage{lastpage} % Number of pages in the document
 \pagestyle{fancy}		  % Enables the custom headers/footers
 
-\def\aBioRXiv{{\footnotesize
-    \footerfont \@leadauthor\ifnum \value{authors} > 2\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo} \hspace{7pt}|\hspace{7pt}\today\hspace{7pt}|\hspace{7pt}\thepage\textendash\pageref{LastPage}
+\if@submit
+  \def\aBioRXiv{{\footnotesize
+  \footerfont \@leadauthor\ifnum \value{authors} > 2\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\today\hspace{7pt}|\hspace{7pt}\thepage\textendash\pageref{LastPage}
   }}
 
-\def\bBioRXiv{{\footnotesize
-    \footerfont \thepage\hspace{7pt}|\hspace{7pt}\includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo}
+  \def\bBioRXiv{{\footnotesize
+  \footerfont \thepage\hspace{7pt}|
   }}
-  
-\def\cBioRXiv{{\footnotesize
-    \footerfont \includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo}\hspace{7pt}|\hspace{7pt}\thepage
+
+  \def\cBioRXiv{{\footnotesize
+  \footerfont |\hspace{7pt}\thepage
   }}
+\else
+  \def\aBioRXiv{{\footnotesize
+      \footerfont \@leadauthor\ifnum \value{authors} > 2\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo} \hspace{7pt}|\hspace{7pt}\today\hspace{7pt}|\hspace{7pt}\thepage\textendash\pageref{LastPage}
+    }}
+
+  \def\bBioRXiv{{\footnotesize
+      \footerfont \thepage\hspace{7pt}|\hspace{7pt}\includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo}
+    }}
+    
+  \def\cBioRXiv{{\footnotesize
+      \footerfont \includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo}\hspace{7pt}|\hspace{7pt}\thepage
+    }}
+\fi
   
 \def\bSupInf{{\footnotesize
     \footerfont \thepage\hspace{7pt}|\hspace{7pt}Supplementary Information

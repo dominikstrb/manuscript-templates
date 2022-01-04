@@ -1,0 +1,53 @@
+\documentclass[9pt]{bioRxiv}
+%\documentclass[9pt, submit]{bioRxiv}
+\renewcommand\familydefault{\sfdefault}
+
+\usepackage{lipsum}
+
+\addbibresource{references.bib}
+
+\begin{document}
+
+\leadauthor{Straub}
+
+
+\title{BioRxiv template}
+\shorttitle{A template adapted from the RoyleLab template}
+
+
+
+\author[a,b]{Dominik Straub \orcidlink{0000-0001-5263-2622}}
+\affil[a]{Centre for Cognitive Science, Technical University Darmstadt, 64283 Darmstadt, Germany}
+\affil[b]{Institute of Psychology, Technical University Darmstadt, 64283 Darmstadt, Germany}
+\date{}
+
+\maketitle
+
+\begin{abstract}
+\lipsum[1]
+\end{abstract}
+
+\begin{keywords}
+biorxiv | template | latex
+\end{keywords}
+
+\begin{corrauthor}
+dominik.straub@tu-darmstadt.de
+\end{corrauthor}
+
+
+\begin{refsection}
+	\input{01_text}
+	
+\section*{Bibliography}
+\printbibliography[heading=none]
+\end{refsection}
+
+\begin{refsection}
+    \input{02_supplementary}
+    \section*{Supplementary bibliography}
+    \printbibliography[heading=none]
+\end{refsection}
+
+
+\end{document}
