@@ -1,12 +1,13 @@
 %%
-%% This is file `StyleJoint.cls'
+%% This is file `bioRxiv.cls'
 %% Forked from `RoyleLab-StyleBioRxiv.cls'
 %% Forked from `zHenriquesLab-StyleBioRxiv.cls',
 %%
-%% Class files for pre-print servers such as BioRXiv
+%% Class files for pre-print servers such as bioRxiv
 %%
 %% Copyright (C) Ricardo Henriques <r.henriques@ucl.ac.uk>
 %% 
+
 
 \typeout{Document Class `bioRxiv' <03-January-2022>.}
 \NeedsTeXFormat{LaTeX2e}
@@ -54,8 +55,8 @@
 \RequirePackage[detect-all=true]{siunitx}
 % for no hyphenation add [none] option
 \if@submit
-  \usepackage[none]{hyphenat} 
-\else 
+  \usepackage[none]{hyphenat}
+\else
   \usepackage{hyphenat}
 \fi
 % reduce the spacing after a full-stop
@@ -199,16 +200,16 @@
 \newcommand{\titlefont}{\fontfamily{lmss}\bfseries\fontsize{18pt}{20pt}\selectfont}
 \newcommand{\dropcapfont}{\fontfamily{lmss}\bfseries\fontsize{22pt}{24pt}\selectfont}
 \if@submit
-\newcommand{\datesfont}{\normalfont\sffamily\fontsize{7}{9}\selectfont}
-\newcommand{\absfont}{\normalfont\sffamily\bfseries\fontsize{10}{12}\selectfont}
-\newcommand{\keywordsfont}{\normalfont\rmfamily\fontsize{10}{11}\selectfont}
-\newcommand{\copyrightfont}{\normalfont\rmfamily\fontsize{10}{11}\selectfont}
+  \newcommand{\datesfont}{\normalfont\sffamily\fontsize{7}{9}\selectfont}
+  \newcommand{\absfont}{\normalfont\sffamily\bfseries\fontsize{10}{12}\selectfont}
+  \newcommand{\keywordsfont}{\normalfont\rmfamily\fontsize{10}{11}\selectfont}
+  \newcommand{\copyrightfont}{\normalfont\rmfamily\fontsize{10}{11}\selectfont}
 \else
-\newcommand{\headerfont}{\normalfont\sffamily\fontsize{7}{9} \selectfont}
-\newcommand{\datesfont}{\normalfont\sffamily\fontsize{7}{8}\selectfont}
-\newcommand{\absfont}{\normalfont\sffamily\bfseries\fontsize{8}{11}\selectfont}
-\newcommand{\keywordsfont}{\normalfont\rmfamily\fontsize{7}{10}\selectfont}
-\newcommand{\copyrightfont}{\normalfont\rmfamily\fontsize{6}{8}\selectfont}
+  \newcommand{\headerfont}{\normalfont\sffamily\fontsize{7}{9} \selectfont}
+  \newcommand{\datesfont}{\normalfont\sffamily\fontsize{7}{8}\selectfont}
+  \newcommand{\absfont}{\normalfont\sffamily\bfseries\fontsize{8}{11}\selectfont}
+  \newcommand{\keywordsfont}{\normalfont\rmfamily\fontsize{7}{10}\selectfont}
+  \newcommand{\copyrightfont}{\normalfont\rmfamily\fontsize{6}{8}\selectfont}
 \fi
 
 %% Set document color scheme
@@ -281,19 +282,13 @@
 \def\markboth#1#2{\def\leftmark{#1}\def\rightmark{#2}}
 \def\footernote#1{\markboth{#1}{#1}}
 
-% %% bibliography
-% \RequirePackage{chapterbib}
-% \RequirePackage[sectionbib,authoryear,sort&compress,merge,round]{natbib}
-% \setlength{\bibsep}{0.0pt}
-% \bibliographystyle{RoyleLab-StyleBib}
-% \renewcommand{\bibsection}{} % Remove header
 \if@submit
   \renewcommand\bibfont{\normalfont\sffamily\fontsize{9}{10}\selectfont} % set font to be sans serif
 \else
   \renewcommand\bibfont{\normalfont\sffamily\fontsize{6}{8}\selectfont} % set font to be sans serif
 \fi
 
-\makeatletter 
+\makeatletter
 \renewcommand\@biblabel[1]{ #1.} % Remove brackets from label
 \def\tagform@#1{\maketag@@@{\bfseries(\ignorespaces#1\unskip\@@italiccorr)}}
 \renewcommand{\eqref}[1]{\textup{{\normalfont Eq.~(\ref{#1}}\normalfont)}}
@@ -306,6 +301,7 @@
 \if@tmptwocolumn
   \twocolumn[\@maketitle]
 \else
+%  \@maketitle % for some reason tmptwocolumn is not declared so this is a fix
   \@maketitle
 \fi
   \thispagestyle{plain}\@thanks
@@ -316,10 +312,11 @@
 
 \if@submit
   \def\@maketitle{\newpage
-  %  \begin{left}
-      \vskip0.2em{\huge\bfseries\@title\par}\vskip1.0em%
+
+    \begin{flushleft}
+      \vskip0.2em{\Huge\bfseries\@title\par}\vskip1.0em%
       {\lineskip.5em\large\@author\par}
-  %  \end{left}
+    \end{flushleft}
       \par\vskip 1.4em}
 
   %% Abstract and keywords
@@ -400,9 +397,9 @@
 \newtheorem{corollary}{Corollary}
 
 \if@submit
-\onecolumn \sloppy \flushbottom
+    \onecolumn \sloppy \flushbottom
 \else
-\twocolumn \sloppy \flushbottom
+    \twocolumn \sloppy \flushbottom
 \fi
 
 %% Allows BIOGRAPHY and leaves place for picture
@@ -460,20 +457,20 @@
   \def\bBioRXiv{{\footnotesize
       \footerfont \thepage\hspace{7pt}|\hspace{7pt}\includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo}
     }}
-    
+
   \def\cBioRXiv{{\footnotesize
       \footerfont \includegraphics[width=1cm, trim=0 1.5cm 0 0]{bioRxiv_logo}\hspace{7pt}|\hspace{7pt}\thepage
     }}
 \fi
-  
+
 \def\bSupInf{{\footnotesize
     \footerfont \thepage\hspace{7pt}|\hspace{7pt}Supplementary Information
   }}
-  
+
 \def\cSupInf{{\footnotesize
     \footerfont Supplementary Information\hspace{7pt}|\hspace{7pt}\thepage
   }}
-   
+
 \def\dAuthor{{\footnotesize
     \footerfont \@leadauthor\ifnum \value{authors} > 2\hspace{2pt}\textit{et al.}\fi\hspace{7pt}|\hspace{7pt}\@shorttitle
   }}
@@ -490,9 +487,9 @@
 
 \fancypagestyle{plain}{
 \fancyhf{}
-\fancyfoot[RE]{}
+%\fancyfoot[RE]{}
 \fancyfoot[LO]{}
-\fancyfoot[LE]{}
+%\fancyfoot[LE]{}
 \fancyfoot[RO]{\aBioRXiv}}
 
 \def\sectionmark#1{\relax}

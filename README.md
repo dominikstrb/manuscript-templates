@@ -19,7 +19,7 @@ Write your manuscript in `01_Article_MainText.tex` and then comment either line 
 There are optional Supplementary tex files that can also be edited.
 If they are not required, comment the appropriate lines in `00_Article_Merge.tex`.
 
-Tested on TeXLive 2020 with pdfLaTeX compiler.
+Tested on Overleaf - TeXLive 2020 with pdfLaTeX compiler.
 
 
 ## Contributions
@@ -30,11 +30,11 @@ This template was forked from the template created by Henriques lab [available h
 - support for ORCiDs using `\orcidlink`
 - Helvetica for readability
 - greater range of custom units
+- refactored into one single class - thank you to Dominik Straub for his work on [this fork](https://github.com/dominikstrb/manuscript-templates).
 
 I further modified the template and adapted it to my needs. Changes include:
 
 - `biblatex` instead of `natbib` (easily allows separate bibliographies for supplementary material)
-- refactored into one single class for bioRxiv style and journal submission style (option `submit`)
 
 ## What do they look like?
 
@@ -45,4 +45,3 @@ I further modified the template and adapted it to my needs. Changes include:
 ### Journal submission version
 
 ![img](img/Example_submit.png?raw=true "image")
-
